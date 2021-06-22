@@ -1,8 +1,8 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Main from "./Main";
-import "./css/bootstrap.css";
-import "./css/style.css";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Main from './Main'
+import './css/bootstrap.css'
+import './css/style.css'
 
 /**
  * GENTLE is desgined as a single page application, build on
@@ -12,6 +12,6 @@ import "./css/style.css";
  */
 
 ReactDOM.render(
-  <Main/>, 
-  document.getElementById("root")
-);
+  <Main />,
+  document.getElementById('root')
+)
