@@ -15,6 +15,7 @@ import NodeCategoriesComponent from './NodeCategoriesComponent'
  * important properties later on.
  */
 
+// TODO: fix to use fractions and scale to actual width
 const svgHeight = window.innerHeight * 0.75
 const svgWidth = (window.innerWidth > 1140 ? 1140 : window.innerWidth) - 60
 const mobile = (!!(window.innerWidth < 500 || window.innerHeight < 500)) // to detect small displays, requiring different render
@@ -121,6 +122,11 @@ class Main extends Component {
       }
     }
     return nodes
+  }
+
+  componentDidMount () {
+    const elems = document.querySelectorAll('.dropdown-trigger')
+    window.M.Dropdown.init(elems, { constrainWidth: false })
   }
 
   // Callback functions
@@ -412,67 +418,71 @@ class Main extends Component {
     return (
       <HashRouter>
         <div>
-          <div className='nav-wrapper'>
-            <a href='#' className='brand-logo'>Gentle-1.1</a>
-            <ul id='nav-mobile' className='right hide-on-med-and-down'>
+          <ul id='dropdown1' className='dropdown-content'>
+            <li>
+              <NavLink
+                className='nav-link'
+                exact to='/'
+              >1) Name generation example screen.
+              </NavLink>
+            </li>
 
-              <li>
-                <NavLink
-                  className='nav-link'
-                  exact to='/'
-                >1) Name generation example screen.
-                </NavLink>
-              </li>
+            <li>
+              <NavLink
+                className='nav-link'
+                exact to='/Click'
+              >2) Clicking on Nodes to cycle through multiple options.
+              </NavLink>
+            </li>
 
-              <li>
-                <NavLink
-                  className='nav-link'
-                  exact to='/Click'
-                >2) Clicking on Nodes to cycle through multiple options.
-                </NavLink>
-              </li>
+            <li>
+              <NavLink
+                className='nav-link'
+                exact to='/Numerical'
+              >3) Assign numerical features.
+              </NavLink>
+            </li>
 
-              <li>
-                <NavLink
-                  className='nav-link'
-                  exact to='/Numerical'
-                >3) Assign numerical features.
-                </NavLink>
-              </li>
+            <li>
+              <NavLink
+                className='nav-link'
+                exact to='/Categories'
+              >4) Assign categorical features.
+              </NavLink>
+            </li>
 
-              <li>
-                <NavLink
-                  className='nav-link'
-                  exact to='/Categories'
-                >4) Assign categorical features.
-                </NavLink>
-              </li>
+            <li>
+              <NavLink
+                className='nav-link'
+                exact to='/Continuous1'
+              >5) Assign continuous relative values 1.
+              </NavLink>
+            </li>
 
-              <li>
-                <NavLink
-                  className='nav-link'
-                  exact to='/Continuous1'
-                >5) Assign continuous relative values 1.
-                </NavLink>
-              </li>
+            <li>
+              <NavLink
+                className='nav-link'
+                exact to='/Continuous2'
+              >6) Assign continuous relative values 2.
+              </NavLink>
+            </li>
 
-              <li>
-                <NavLink
-                  className='nav-link'
-                  exact to='/Continuous2'
-                >6) Assign continuous relative values 2.
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink
-                  className='nav-link'
-                  exact to='/Interconnection'
-                >6) Assign connections between nodes.
-                </NavLink>
-              </li>
-            </ul>
-          </div>
+            <li>
+              <NavLink
+                className='nav-link'
+                exact to='/Interconnection'
+              >6) Assign connections between nodes.
+              </NavLink>
+            </li>
+          </ul>
+          <nav>
+            <div className='nav-wrapper'>
+              <a href='#' className='brand-logo'>Gentle-1.1</a>
+              <ul id='nav-mobile' className='right hide-on-med-and-down'>
+                <li><a className='dropdown-trigger' href='#!' data-target='dropdown1'>Select step...<i className='material-icons right'>arrow_drop_down</i></a></li>
+              </ul>
+            </div>
+          </nav>
           <div id='content' className='content container'>
             <Route
               exact path='/' component={() => <NodeButtonComponent

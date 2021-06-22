@@ -39,7 +39,7 @@ class Graph extends Component {
       .linkDistance(150)
       .linkStrength(1)
       .size([width, height])
-    // this.conditionNode = 1
+    this.conditionNode = 1
     this.force.drag()
       .on('dragend', (e) => this.dragCallBack(e))
   }
@@ -179,7 +179,7 @@ class Graph extends Component {
   componentDidMount () {
     this.virtualD3 = d3.select(ReactDOM.findDOMNode(this.graphRef))
     this.force.on('tick', (e) => {
-      this.virtualD3.call(this.updateVirtualD3, JSON.parse(JSON.stringify(this.props.foci)))
+      this.virtualD3.call(this.updateVirtualD3.bind(this), JSON.parse(JSON.stringify(this.props.foci)))
     })
   }
 
@@ -222,12 +222,12 @@ class Graph extends Component {
       vd3Nodes.select('.Node').style('fill', (d) => d.color)
       vd3Nodes.select('.Node_rel').style('stroke', (d) => d.categoryColor)
 
-      vd3Nodes.enter().append('g').call(this.enterCycleNodes)
+      vd3Nodes.enter().append('g').call(this.enterCycleNodes.bind(this))
       vd3Nodes.exit().remove()
 
       const vd3Links = this.virtualD3.selectAll('.link')
         .data(links, (link) => link.key)
-      vd3Links.enter().insert('line', '.node').call(this.enterCycleLinks)
+      vd3Links.enter().insert('line', '.node').call(this.enterCycleLinks.bind(this))
       vd3Links.exit().remove()
 
       // If data changed but positions remained the same use static rendering as well
@@ -291,10 +291,10 @@ class Graph extends Component {
       if (!conditionFoci) {
         for (let i = this.force.alpha(); i > 0.005; i = i - 0.001) {
           // static rendering prevents "fading in"
-          this.virtualD3.call(this.updateVirtualD3, foci)
+          this.virtualD3.call(this.updateVirtualD3.bind(this), foci)
         }
       } else {
-        this.virtualD3.call(this.updateVirtualD3, foci)
+        this.virtualD3.call(this.updateVirtualD3.bind(this), foci)
       }
       this.force.start()
     } else {
@@ -303,15 +303,15 @@ class Graph extends Component {
         .data(nodes)
       const vd3Links = this.virtualD3.selectAll('.link')
         .data(links)
-      vd3Nodes.enter().append('g').call(this.enterCycleNodes)
-      vd3Links.enter().insert('line', '.node').call(this.enterCycleLinks)
+      vd3Nodes.enter().append('g').call(this.enterCycleNodes.bind(this))
+      vd3Links.enter().insert('line', '.node').call(this.enterCycleLinks.bind(this))
       this.force.nodes(nodes).links(links)
 
       // cool down network sufficiently to prevent fading in == static rendering
       // will always take place on the network connection screen.
       for (let i = this.force.alpha(); i > 0.005; i = i - 0.001) {
         // static rendering prevents "fading in"
-        this.virtualD3.call(this.updateVirtualD3, foci)
+        this.virtualD3.call(this.updateVirtualD3.bind(this), foci)
       }
       this.force.start()
       this.force.alpha(0.01) // stop unnecessary calculations
